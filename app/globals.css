@@ -1,26 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap');
 @import "tailwindcss";
 
+/* 1. MAP TAILWIND CLASSES TO VARIABLES */
+@theme {
+  --font-sans: "Geist", sans-serif;
+  --color-primary: var(--bg-primary);
+  --color-secondary: var(--bg-secondary);
+  --color-dark: var(--bg-dark);
+  --color-primary-text: var(--text-primary);
+  --color-secondary-text: var(--text-secondary1);
+  --color-tertiary-text: var(--text-secondary2);
+  --color-border-base: var(--border);
+}
+
+/* Default (Light) Mode */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #fdfdfd;
+  --bg-secondary: #f6f6f6;
+  --bg-dark: #070707;
+  --text-primary: #070707; 
+  --text-secondary1: #595959;
+  --text-secondary2: #8E8E8E;
+  --border: #E5E7E3;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark Mode (Green) */
+[data-theme='green'] {
+  --bg-primary: #11433D;
+  --bg-secondary: #165850;
+  --bg-dark: #070707;
+  --text-primary: #EBFAF9; 
+  --text-secondary1: #2FBEAE;
+  --text-secondary2: #259488;
+  --border: #1D7369;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* FIXED: data-them -> data-theme */
+[data-theme='blue'] {
+  --bg-primary: #080940;
+  --bg-secondary: #1D2E73;
+  --bg-dark: #070707;
+  --text-primary: #EBEEFA; 
+  --text-secondary1: #A2B0EA;
+  --text-secondary2: #5D76DA;
+  --border: #253C94;
+}
+
+/* FIXED: data-them -> data-theme */
+[data-theme='purple'] {
+  --bg-primary: #504EC3;
+  --bg-secondary: #5856D6;
+  --bg-dark: #070707;
+  --text-primary: #EEEEFB; 
+  --text-secondary1: #CBCBF2;
+  --text-secondary2: #B2B1EC;
+  --border: #7978DE;
+}
+
+/* FIXED: data-them -> data-theme */
+[data-theme='orange'] {
+  --bg-primary: #FFAA33;
+  --bg-secondary: #FFB854;
+  --bg-dark: #070707;
+  --text-primary: #6B3F00; 
+  --text-secondary1: #8C5200;
+  --text-secondary2: #B56A00;
+  --border: #E88800;
+}
+
+/* FIXED: data-them -> data-theme */
+[data-theme='red'] {
+  --bg-primary: #D12546;
+  --bg-secondary: #E6294D;
+  --bg-dark: #070707;
+  --text-primary: #FDEAED; 
+  --text-secondary1: #F7BDC8;
+  --text-secondary2: #F49DAD;
+  --border: #EB5471;
+}
+
+/* FIXED: data-them -> data-theme */
+[data-theme='night'] {
+  --bg-primary: #070707;
+  --bg-secondary: #282828;
+  --bg-dark: #070707;
+  --text-primary: #FDFDFD; 
+  --text-secondary1: #B2B2B2;
+  --text-secondary2: #8D8D8D;
+  --border: #393939;
+}
+
+@font-face {
+  font-family: 'Rinter';
+  src: url('/fonts/Rinternet.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.rinter {
+  font-family: "Rinter", sans-serif;
+}
+
+.fix {
+  border: 1px solid red;
+}
+
+.card-shadow {
+  box-shadow: 0 0 32px 0 rgba(0, 0, 0, 0.08);
+}
+
+
+.agdasima {
+  font-family: "Agdasima", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
