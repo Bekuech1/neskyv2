@@ -3,8 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "./components/navbar";
-import { CursorProvider } from "./context/cursorcontext";
-import CustomCursor from "./components/customcursor";
 import Footer from "./components/footer";
 
 const geistSans = Geist({
@@ -29,13 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className="">
         <Providers>
           <Navbar />
-          <CursorProvider>
-            <CustomCursor />
-            <main className="">{children}</main>
-          </CursorProvider>
+          <main className="">{children}</main>
           <Footer />
         </Providers>
       </body>

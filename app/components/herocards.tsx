@@ -17,8 +17,8 @@ export default function HeroCard({
   return (
     <div
       style={style}
-      className={`absolute overflow-hidden card-shadow 
-      rounded-2xl border-2 border-border aspect-square size-37 
+      className={`absolute overflow-hidden shadow-lg 
+      rounded-2xl border-2 border-[#FDFDFD] aspect-square size-37 
       ${className} `}
     >
       <Image

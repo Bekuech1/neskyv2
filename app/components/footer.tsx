@@ -7,16 +7,16 @@ import { navLinks } from "../libs/data";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface FooterProps {}
+interface FooterProps { }
 
-export default function Footer({}: FooterProps) {
+export default function Footer({ }: FooterProps) {
   const pathname = usePathname();
 
   // State to track if text is copied
   const [isCopied, setIsCopied] = useState(false);
   // State to track hover for the blur effect
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const email = "Newman.ogbo.s@gmail.com";
 
   // Logic to handle copying
@@ -55,11 +55,10 @@ export default function Footer({}: FooterProps) {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`text-base uppercase font-medium py-3 px-4 transition-colors duration-200 ${
-                  isActive
+                className={`text-base uppercase font-medium py-3 px-4 transition-colors duration-200 ${isActive
                     ? "text-[#FDFDFD]"
                     : "text-[#595959] hover:text-[#FDFDFD]"
-                }`}
+                  }`}
               >
                 {link.name}
               </Link>
@@ -99,7 +98,15 @@ export default function Footer({}: FooterProps) {
       <div className="uppercase flex justify-between z-10 relative">
         <h6 className="text-[#929292] text-sm">
           With 💜 by <span className="text-[#FDFDFD]">Newman</span> &{" "}
-          <span className="text-[#FDFDFD]">Beko</span> 2026
+          <a
+            href="https://chibuikemigboanugo.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#FDFDFD] cursor-pointer"
+          >
+            Beko
+          </a>{" "}
+          2026
         </h6>
         <span className="text-sm font-semibold text-[#929292]">
           V2 • PORTFOLIO

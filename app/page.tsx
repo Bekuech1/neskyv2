@@ -8,7 +8,7 @@ import Projects from "./components/projects";
 
 export default function Home() {
   return (
-    <>
+    <div className="no-scrollbar">
       <section className="px-50">
         <Hero />
         <Projects />
@@ -17,6 +17,6 @@ export default function Home() {
         <Playground />
         <Aboutme />
       </section>
-    </>
+    </div>
   );
 }
