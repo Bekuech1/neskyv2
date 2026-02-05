@@ -1,11 +1,12 @@
 "use client";
 
 import { DocumentDownload } from "iconsax-react";
-import Button from "./button";
-import React, { useRef, useLayoutEffect } from "react"; // Added hooks
-import Image from "next/image";
-import { me } from "../libs/me";
-import gsap from "gsap"; // Import GSAP
+
+import React, { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { me } from "@/app/libs/me";
+import Button from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const experiences = [
     {
@@ -69,58 +70,68 @@ const ExperienceRow = ({
     );
 };
 
-interface AboutmeProps { }
+interface AboutmeProps {
+    showFindMore?: boolean;
+    description?: React.ReactNode;
+}
 
-export default function Aboutme({ }: AboutmeProps) {
+export default function Aboutme({ showFindMore = true, description }: AboutmeProps) {
+
     const sliderRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
             gsap.to(sliderRef.current, {
-                xPercent: -50, // Move exactly half the width (since we doubled the content)
-                repeat: -1, // Infinite loop
-                duration: 40, // Adjust speed (higher = slower)
-                ease: "linear", // Smooth constant speed
+                xPercent: -50,
+                repeat: -1,
+                duration: 40,
+                ease: "linear",
             });
         }, sliderRef);
 
-        return () => ctx.revert(); // Cleanup on unmount
+        return () => ctx.revert();
     }, []);
 
-    // Double the array to create the seamless loop effect
     const infiniteMe = [...me, ...me];
+
+    const defaultBio = (
+        <span>
+            I'm Newman Ogbo, a Product & Visual Designer with a
+            strong interest in how ideas evolve into usable,
+            meaningful digital products. My journey into design
+            began not with aesthetics, but with curiosity about
+            how people interact with systems, how technology
+            shapes behavior, and how thoughtful structure can
+            simplify complex problems. Early on, I became drawn
+            to observing everyday challenges around access,
+            connection, and usability. This curiosity gradually
+            led me to design, where I found a discipline that
+            allowed me to combine problem-solving, visual
+            communication, and systems thinking into practical
+            outcomes. Over time, my work expanded across web and
+            mobile products, often within early-stage or
+            founder-led environments where design decisions
+            directly shaped the product's direction.
+        </span>
+    );
 
     return (
         <div className="py-20 grid gap-12">
-            <div className="grid gap-3 px-50">
+            <div className="grid gap-3 max-w-[1040px] mx-auto">
                 <h1 className="font-extrabold text-2xl">About me</h1>
-                <div className="flex gap-8">
+                <div className="flex gap-8 items-start">
                     {/* Left Column: Text */}
                     <div className="w-[50%]">
-                        <p className="Rinter text-base font-normal text-secondary-text">
-                            I’m Newman Ogbo, a Product & Visual Designer with a
-                            strong interest in how ideas evolve into usable,
-                            meaningful digital products. My journey into design
-                            began not with aesthetics, but with curiosity about
-                            how people interact with systems, how technology
-                            shapes behavior, and how thoughtful structure can
-                            simplify complex problems. Early on, I became drawn
-                            to observing everyday challenges around access,
-                            connection, and usability. This curiosity gradually
-                            led me to design, where I found a discipline that
-                            allowed me to combine problem-solving, visual
-                            communication, and systems thinking into practical
-                            outcomes. Over time, my work expanded across web and
-                            mobile products, often within early-stage or
-                            founder-led environments where design decisions
-                            directly shaped the product’s direction.
-                        </p>
+                        <div className="Rinter text-base font-normal text-secondary-text">
+                            {description || defaultBio}
+                        </div>
                     </div>
 
                     {/* Right Column: Work Experience Card */}
-                    <div className="w-[50%] bg-white rounded-3xl p-8 flex flex-col justify-between h-full">
-                        <div>
-                            <div className="mb-2">
+                    <div className="w-[50%] bg-white rounded-3xl p-8 flex flex-col justify-between h-[300px]">
+                        <div className="flex-1 overflow-y-auto">
+                            <div className="mb-6">
                                 <h1 className="font-extrabold text-xl text-[#000000]">
                                     Work Experience
                                 </h1>
@@ -140,7 +151,7 @@ export default function Aboutme({ }: AboutmeProps) {
                             </div>
                         </div>
 
-                        <button className="uppercase mt-6 flex gap-2 place-items-center w-fit text-sm font-bold tracking-wide text-[#3454D1] hover:opacity-80 transition-opacity">
+                        <button className="uppercase mt-6 flex gap-2 place-items-center w-fit text-sm font-bold tracking-wide text-[#3454D1] hover:opacity-80 transition-opacity flex-shrink-0">
                             <DocumentDownload
                                 variant="Bold"
                                 size={20}
@@ -151,22 +162,42 @@ export default function Aboutme({ }: AboutmeProps) {
                     </div>
                 </div>
 
-                <div className="flex justify-center mt-8">
-                    <Button
-                        bgColor="bg-white"
-                        textColor="text-dark"
-                        borderColor="border-[#E5E7E3]"
-                    >
-                        Find Out More
-                    </Button>
-                </div>
+                {showFindMore && (
+                    <div className="flex justify-center mt-8">
+                        <Button
+                            bgColor="bg-white"
+                            textColor="text-dark"
+                            borderColor="border-[#E5E7E3]"
+                            onClick={() => { router.push("/about") }}
+                        >
+                            Find Out More
+                        </Button>
+                    </div>
+                )}
             </div>
 
-            <div className="relative h-100 overflow-hidden">
+            <div className="relative h-120">
                 <div className="w-full mt-6 absolute">
                     <div ref={sliderRef} className="flex gap-4 w-max">
                         {infiniteMe.map((image, index) => (
-                            <img src={image.src} alt={image.alt} key={index} className={`relative hover:rotate-[-1.5deg] overflow-hidden border-2 border-transparent hover:border-primary group cursor-pointer object-cover ${image.size}`} />
+                            <img
+                                src={image.src}
+                                alt={image.alt}
+                                key={index}
+                                className={`
+                                           relative 
+                                           overflow-hidden 
+                                           border-2 border-transparent 
+                                           group cursor-pointer object-cover 
+                                           ${image.size}
+                                           
+                                           /* --- ANIMATION & HOVER STYLES --- */
+                                           transition-all duration-300 ease-out
+                                           hover:rotate-[-1.5deg] 
+                                           hover:border-primary 
+                                           hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]
+                                          `}
+                            />
                         ))}
                     </div>
                 </div>

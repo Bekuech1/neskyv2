@@ -36,7 +36,7 @@ export default function ProjectCard({
       <CustomCursor isActive={cursorActive} text={cursorText} />
 
       <div
-        className="group flex flex-col gap-2 p-1 size-fit rounded-lg overflow-hidden hover:shadow-lg hover:rotate-[-1.5deg] transition-all duration-300"
+        className="group flex flex-col gap-2 p-1 size-fit rounded-lg overflow-hidden hover:shadow-md hover:rotate-[-1.5deg] transition-all duration-300"
         style={{ cursor: cursorActive ? "none" : "auto" }}
         onMouseEnter={() => setCursorActive(true)}
         onMouseLeave={() => setCursorActive(false)}
@@ -93,7 +93,7 @@ const ActionLink = ({
   if (locked) {
     return (
       <div
-        className="flex items-center gap-1.5 text-xs font-semibold text-secondary-text select-none"
+        className="flex items-center gap-1.5 text-xs font-semibold text-secondary-text select-none uppercase"
         title={`${label} is currently unavailable`}
       >
         <Lock1 size={16} color="currentColor" variant="Bold" />
@@ -108,7 +108,7 @@ const ActionLink = ({
       target="_blank"
       rel="noreferrer"
       // Added z-20 to ensure links are clickable even with custom cursor logic
-      className="flex items-center gap-1.5 text-xs font-semibold text-primary-text transition-opacity cursor-none relative z-20"
+      className="flex items-center gap-1.5 text-xs font-semibold text-primary-text transition-opacity cursor-none relative z-20 uppercase"
     >
       <div className="text-primary-text">
         {type === "live" ? (

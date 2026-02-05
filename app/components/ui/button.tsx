@@ -31,6 +31,7 @@ export default function Button({
         text-base font-semibold
         border
         cursor-pointer
+        hover:scale-110 transition-all duration-300 ease-in-out
         ${bgColor}
         ${textColor}
         ${borderColor}

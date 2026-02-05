@@ -32,7 +32,7 @@ const Toggle: React.FC<ToggleProps> = ({
       {/* Left Text */}
       <div 
         className={`
-          z-10 w-1/2 min-w-25 text-nowrap flex items-center justify-center p-2 text-xs font-medium transition-colors duration-300
+          z-10 w-1/2 min-w-25 text-nowrap flex items-center justify-center p-2 text-xs font-bold transition-colors duration-300
           ${!toggled ? 'text-primary-text' : 'text-secondary-text'}
         `}
         onClick={(e) => {
@@ -46,7 +46,7 @@ const Toggle: React.FC<ToggleProps> = ({
       {/* Right Text */}
       <div 
         className={`
-          z-10 w-1/2 min-w-25 flex text-nowrap items-center justify-center p-2 text-xs font-medium transition-colors duration-300
+          z-10 w-1/2 min-w-25 flex text-nowrap items-center justify-center p-2 text-xs font-bold transition-colors duration-300
           ${toggled ? 'text-primary-text' : 'text-secondary-text'}
         `}
         onClick={(e) => {

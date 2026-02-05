@@ -1,21 +1,22 @@
 "use client";
 
-import Aboutme from "./components/aboutme";
-import Footer from "./components/footer";
-import Hero from "./components/hero";
-import Playground from "./components/playground";
-import Projects from "./components/projects";
+import Aboutme from "./components/layout/aboutme";
+import Hero from "./components/layout/hero";
+import Playground from "./components/layout/playground";
+import Projects from "./components/layout/projects";
 
 export default function Home() {
   return (
     <div className="no-scrollbar">
-      <section className="px-50">
+      <section className="px-5 md:px-20">
         <Hero />
         <Projects />
       </section>
-      <section className="bg-secondary">
+      <section>
         <Playground />
-        <Aboutme />
+        <section className="bg-secondary">
+          <Aboutme />
+        </section>
       </section>
     </div>
   );

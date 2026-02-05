@@ -12,6 +12,9 @@
   --color-secondary-text: var(--text-secondary1);
   --color-tertiary-text: var(--text-secondary2);
   --color-border-base: var(--border);
+  --color-dropdown-bg: var(--dropdown-bg);
+  --color-dropdown-text: var(--dropdown-text);
+  --color-dropdown-hover-bg: var(--dropdown-hover-bg);
 }
 
 /* Default (Light) Mode */
@@ -23,6 +26,9 @@
   --text-secondary1: #595959;
   --text-secondary2: #8E8E8E;
   --border: #E5E7E3;
+  --dropdown-bg: #070707;
+  --dropdown-text: #FFFFFF; 
+  --dropdown-hover-bg: #393939/30;    
 }
 
 /* Dark Mode (Green) */
@@ -34,6 +40,9 @@
   --text-secondary1: #2FBEAE;
   --text-secondary2: #259488;
   --border: #1D7369;
+  --dropdown-bg: #070707;
+  --dropdown-text: #FFFFFF;
+  --dropdown-hover-bg: #393939/30;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -45,6 +54,9 @@
   --text-secondary1: #A2B0EA;
   --text-secondary2: #5D76DA;
   --border: #253C94;
+  --dropdown-bg: #070707;
+  --dropdown-text: #FFFFFF;   
+  --dropdown-hover-bg: #393939/30;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -56,6 +68,9 @@
   --text-secondary1: #CBCBF2;
   --text-secondary2: #B2B1EC;
   --border: #7978DE;
+  --dropdown-bg: #070707; 
+  --dropdown-text: #FFFFFF;
+  --dropdown-hover-bg: #393939/30;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -66,7 +81,10 @@
   --text-primary: #6B3F00; 
   --text-secondary1: #8C5200;
   --text-secondary2: #B56A00;
-  --border: #E88800;
+  --border: #E88800;  
+  --dropdown-bg: #070707;
+  --dropdown-text: #FFFFFF;
+  --dropdown-hover-bg: #393939/30;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -78,7 +96,10 @@
   --text-secondary1: #F7BDC8;
   --text-secondary2: #F49DAD;
   --border: #EB5471;
-}
+  --dropdown-bg: #070707;
+  --dropdown-text: #FFFFFF;
+  --dropdown-hover-bg: #393939/30;    
+  }
 
 /* FIXED: data-them -> data-theme */
 [data-theme='night'] {
@@ -89,7 +110,10 @@
   --text-secondary1: #B2B2B2;
   --text-secondary2: #8D8D8D;
   --border: #393939;
-}
+  --dropdown-bg: #FFFFFF;
+  --dropdown-text: #070707;
+  --dropdown-hover-bg: #F5F5F5;    
+  }
 
 @font-face {
   font-family: 'Rinter';
@@ -114,6 +138,8 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100dvh;
+  margin: 0;
 }
 
 .rinter {

@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import Toggle from "./toggle";
-import ProjectCard from "./projectcard";
+import ProjectCard from "../ui/projectcard";
+import Toggle from "../ui/toggle";
 
 export default function Projects() {
   const [isUiDesign, setIsUiDesign] = useState(true);
 
   return (
-    <div className="py-14 grid gap-7.25">
+    <div className="py-14 grid gap-7.25 max-w-[1040px] mx-auto">
       <div className="w-full flex justify-between items-center">
         <h1 className="font-extrabold text-2xl">Projects</h1>
         <Toggle
@@ -18,7 +18,7 @@ export default function Projects() {
           onToggle={() => setIsUiDesign(!isUiDesign)}
         />
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mx-auto">
         {isUiDesign ? (
           <>
             <ProjectCard
