@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Button from "../ui/button";
 import { navLinks } from "@/app/libs/data";
+import ScrollReveal from "../ui/ScrollReveal";
 
 interface FooterProps { }
 
@@ -36,83 +37,91 @@ export default function Footer({ }: FooterProps) {
 
   return (
     <div className="bg-dark py-20 grid relative overflow-hidden">
-      <div className="grid  gap-16 w-full max-w-[1040px] mx-auto">
-        <div className="flex justify-between items-center z-10 relative">
-          <div className="h-12 flex items-center gap-4">
-            <span className="text-base font-medium text-[#FDFDFD]">
-              Find me on
-            </span>
-            <div className="flex gap-3">
-              <img src="/footer1.svg" alt="" className="size-5.5" />
-              <img src="/footer2.svg" alt="" className="size-5.5" />
-              <img src="/footer3.svg" alt="" className="size-5.5" />
+      <div className="grid gap-16 w-full max-w-[1040px] mx-auto">
+        
+        {/* ROW 1: Socials & Nav Links */}
+        <ScrollReveal>
+          <div className="flex justify-between items-center z-10 relative">
+            <div className="h-12 flex items-center gap-4">
+              <span className="text-base font-medium text-[#FDFDFD]">
+                Find me on
+              </span>
+              <div className="flex gap-3">
+                <img src="/footer1.svg" alt="" className="size-5.5" />
+                <img src="/footer2.svg" alt="" className="size-5.5" />
+                <img src="/footer3.svg" alt="" className="size-5.5" />
+              </div>
+            </div>
+            <div>
+              {navLinks.map((link: any) => {
+                const isActive = pathname === link.href;
+
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`text-base uppercase font-medium py-3 px-4 transition-colors duration-200 ${isActive
+                      ? "text-[#FDFDFD]"
+                      : "text-[#595959] hover:text-[#FDFDFD]"
+                      }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
             </div>
           </div>
-          <div>
-            {navLinks.map((link: any) => {
-              const isActive = pathname === link.href;
+        </ScrollReveal>
 
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`text-base uppercase font-medium py-3 px-4 transition-colors duration-200 ${isActive
-                    ? "text-[#FDFDFD]"
-                    : "text-[#595959] hover:text-[#FDFDFD]"
-                    }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="flex justify-between items-center z-10 relative">
-          <h3
-            onClick={handleCopy}
-            onMouseEnter={() => setIsHovered(true)} // Enable blur
-            onMouseLeave={() => setIsHovered(false)} // Disable blur
-            className="text-[96px] agdasima font-bold text-[#595959] hover:text-[#FDFDFD] transition-colors duration-200 cursor-pointer"
-          >
-            {email}
-          </h3>
-
-          <div onClick={handleCopy}>
-            <Button
-              bgColor="bg-[#FDFDFD]"
-              textColor="text-dark"
-              borderColor="border-[#E5E7E3]"
-              icon={
-                isCopied ? (
-                  <TickCircle color="currentColor" size={16} variant="Bold" />
-                ) : (
-                  <Copy color="currentColor" size={16} variant="Bold" />
-                )
-              }
+        {/* ROW 2: Big Email & Copy Button */}
+        <ScrollReveal>
+          <div className="flex justify-between items-center z-10 relative">
+            <h3
+              onClick={handleCopy}
+              onMouseEnter={() => setIsHovered(true)} // Enable blur
+              onMouseLeave={() => setIsHovered(false)} // Disable blur
+              className="text-[96px] agdasima font-bold text-[#595959] hover:text-[#FDFDFD] transition-colors duration-200 cursor-pointer"
             >
-              {isCopied ? "Copied" : "Copy"}
-            </Button>
-          </div>
-        </div>
+              {email}
+            </h3>
 
-        <div className="uppercase flex justify-between z-10 relative">
-          <h6 className="text-[#929292] text-sm">
-            With 💜 by <span className="text-[#FDFDFD]">Newman</span> &{" "}
-            <a
-              href="https://chibuikemigboanugo.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#FDFDFD] cursor-pointer"
-            >
-              Beko
-            </a>{" "}
-            2026
-          </h6>
-          <span className="text-sm font-semibold text-[#929292]">
-            V2 • PORTFOLIO
-          </span>
-        </div>
+            <div onClick={handleCopy}>
+              <Button
+                bgColor="bg-[#FDFDFD]"
+                textColor="text-dark"
+                borderColor="border-[#E5E7E3]"
+                icon={
+                  isCopied ? (
+                    <TickCircle color="currentColor" size={16} variant="Bold" />
+                  ) : (
+                    <Copy color="currentColor" size={16} variant="Bold" />
+                  )
+                }
+              >
+                {isCopied ? "Copied" : "Copy"}
+              </Button>
+            </div>
+          </div>
+        </ScrollReveal>
+
+        {/* ROW 3: Credits */}
+          <div className="uppercase flex justify-between z-10 relative">
+            <h6 className="text-[#929292] text-sm">
+              With 💜 by <span className="text-[#FDFDFD]">Newman</span> &{" "}
+              <a
+                href="https://chibuikemigboanugo.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FDFDFD] cursor-pointer"
+              >
+                Beko
+              </a>{" "}
+              2026
+            </h6>
+            <span className="text-sm font-semibold text-[#929292]">
+              V2 • PORTFOLIO
+            </span>
+          </div>
 
         {/* Blur Background */}
         <div
@@ -133,7 +142,7 @@ export default function Footer({ }: FooterProps) {
            ${isHovered ? "opacity-50" : "opacity-0"} 
         `}
         />
-        </div>
+      </div>
     </div>
   );
 }

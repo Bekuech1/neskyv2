@@ -24,11 +24,11 @@
   --bg-dark: #070707;
   --text-primary: #070707; 
   --text-secondary1: #595959;
-  --text-secondary2: #8E8E8E;
+  --text-secondary2: #939191;
   --border: #E5E7E3;
   --dropdown-bg: #070707;
   --dropdown-text: #FFFFFF; 
-  --dropdown-hover-bg: #393939/30;    
+  --dropdown-hover-bg: #272626;    
 }
 
 /* Dark Mode (Green) */
@@ -42,7 +42,7 @@
   --border: #1D7369;
   --dropdown-bg: #070707;
   --dropdown-text: #FFFFFF;
-  --dropdown-hover-bg: #393939/30;    
+  --dropdown-hover-bg: #272626;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -56,7 +56,7 @@
   --border: #253C94;
   --dropdown-bg: #070707;
   --dropdown-text: #FFFFFF;   
-  --dropdown-hover-bg: #393939/30;    
+  --dropdown-hover-bg: #272626;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -70,7 +70,7 @@
   --border: #7978DE;
   --dropdown-bg: #070707; 
   --dropdown-text: #FFFFFF;
-  --dropdown-hover-bg: #393939/30;    
+  --dropdown-hover-bg: #272626;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -84,7 +84,7 @@
   --border: #E88800;  
   --dropdown-bg: #070707;
   --dropdown-text: #FFFFFF;
-  --dropdown-hover-bg: #393939/30;    
+  --dropdown-hover-bg: #272626;    
 }
 
 /* FIXED: data-them -> data-theme */
@@ -98,7 +98,7 @@
   --border: #EB5471;
   --dropdown-bg: #070707;
   --dropdown-text: #FFFFFF;
-  --dropdown-hover-bg: #393939/30;    
+  --dropdown-hover-bg: #272626;    
   }
 
 /* FIXED: data-them -> data-theme */

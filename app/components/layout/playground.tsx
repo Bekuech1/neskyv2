@@ -10,11 +10,12 @@ import CustomCursor from "../ui/customcursor";
 import IconToggle from "../ui/icontoggle";
 import Button from "../ui/button";
 import { useRouter } from "next/navigation";
+import ScrollReveal from "../ui/ScrollReveal";
 
 // --- CONFIGURATION ---
 const GAP = 40;
-const CAROUSEL_CARD_WIDTH = 724;
-const CAROUSEL_CARD_HEIGHT = 533;
+const CAROUSEL_HEIGHT = 533; // Fixed Height
+// removed CAROUSEL_CARD_WIDTH constant as it is now variable
 
 interface PlaygroundProps {
   limit?: number;
@@ -38,17 +39,26 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
     title: item.alt,
   }));
 
+  // --- UPDATED GSAP LOGIC FOR VARIABLE WIDTHS ---
   useGSAP(() => {
     if (!trackRef.current || !containerRef.current || !isCarouselView) return;
 
-    const itemTotalWidth = CAROUSEL_CARD_WIDTH + GAP;
-    // We use window.innerWidth or a fixed container width for calculation in this mode
-    // forcing a re-calc if needed, but containerRef.current.offsetWidth is usually fine.
-    const containerCenter = containerRef.current.offsetWidth / 2;
-    const cardCenter = CAROUSEL_CARD_WIDTH / 2;
-    const centerOffset = containerCenter - cardCenter;
+    // Get the specific DOM element for the active item
+    // We cast children to HTMLElement to access offsetLeft/offsetWidth
+    const activeItem = trackRef.current.children[activeIndex] as HTMLElement;
 
-    const newX = -(activeIndex * itemTotalWidth) + centerOffset;
+    if (!activeItem) return;
+
+    // 1. Find center of the container (viewport)
+    const containerCenter = containerRef.current.offsetWidth / 2;
+
+    // 2. Find center of the active item relative to the start of the track
+    // offsetLeft = distance from left edge of track to left edge of item
+    // offsetWidth / 2 = half the width of the item
+    const activeItemCenter = activeItem.offsetLeft + (activeItem.offsetWidth / 2);
+
+    // 3. Calculate translation needed to overlap the two centers
+    const newX = containerCenter - activeItemCenter;
 
     gsap.to(trackRef.current, {
       x: newX,
@@ -66,15 +76,12 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
   };
 
   return (
-    // 1. WRAPPER: min-h-screen ensures bg covers full view even if content is short.
-    // relative allows the absolute bg to stretch to content height.
     <section className="relative w-full min-h-screen">
       <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,var(--color-tertiary-text)_1.5px,transparent_1.5px)] bg-[length:26px_26px] pointer-events-none opacity-50" />
-      {/* 3. CONTENT: Relative z-10 so it sits on top of bg */}
       <div className="relative z-10 w-full py-14 grid gap-16">
 
         {/* HEADER */}
-        <div className="w-full flex justify-between items-center max-w-[1040px] mx-auto px-4">
+        <ScrollReveal className="w-full flex justify-between items-center max-w-[1040px] mx-auto px-4">
           <h1 className="font-extrabold text-2xl text-primary-text">Playground</h1>
           <IconToggle
             toggled={isCarouselView}
@@ -82,7 +89,7 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
             leftIcon={<Element4 size={20} variant="Bold" color="currentColor" />}
             rightIcon={<RowHorizontal size={20} variant="Bold" color="currentColor" />}
           />
-        </div>
+        </ScrollReveal>
 
         {/* VIEW AREA */}
         <div ref={containerRef} className="w-full relative min-h-[600px] flex flex-col justify-center">
@@ -103,10 +110,9 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
                         onClick={() => setActiveIndex(index)}
                         onMouseEnter={() => setIsGridCursorActive(true)}
                         onMouseLeave={() => setIsGridCursorActive(false)}
-                        style={{
-                          width: `${CAROUSEL_CARD_WIDTH}px`,
-                          height: `${CAROUSEL_CARD_HEIGHT}px`,
-                        }}
+                        // REMOVED fixed width style.
+                        // Added h-auto and w-auto to allow content to dictate size.
+                        style={{ height: `${CAROUSEL_HEIGHT}px` }}
                         className={`
                           relative flex-shrink-0 transition-all duration-500 overflow-hidden cursor-none
                           ${isActive
@@ -115,20 +121,20 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
                           }
                         `}
                       >
-                        <div className="relative w-full h-full">
-                          <Image
-                            src={item.src}
-                            alt={item.title}
-                            fill
-                            priority={isActive}
-                            style={{
-                              objectFit: "cover",
-                              objectPosition: "top center"
-                            }}
-                            className="transition-transform duration-500"
-                            sizes={`${CAROUSEL_CARD_WIDTH}px`}
-                          />
-                        </div>
+                        {/* UPDATED IMAGE COMPONENT 
+                           1. width={0} height={0} sizes="100vw": Tells Next.js to not enforce pixel dims.
+                           2. style={{ width: 'auto', height: '100%' }}: CSS rule that calculates width based on aspect ratio + fixed height.
+                        */}
+                        <Image
+                          src={item.src}
+                          alt={item.title}
+                          width={0}
+                          height={0}
+                          sizes="80vw"
+                          priority={isActive}
+                          style={{ width: 'auto', height: '100%' }}
+                          className="object-contain"
+                        />
                       </div>
                     );
                   })}
@@ -154,30 +160,36 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
               </div>
             </>
           ) : (
-            // GRID VIEW
+            // GRID VIEW (Keep as is, or adjust mapped items if needed)
             <>
               <CustomCursor isActive={isGridCursorActive} text="view" />
               <div className="columns-2 md:columns-3 gap-6 space-y-6 animate-in fade-in duration-500 max-w-[1040px] mx-auto px-4 pb-10 w-full">
                 {items.map((item) => (
-                  <div
+                  <ScrollReveal
                     key={item.id}
-                    onMouseEnter={() => setIsGridCursorActive(true)}
-                    onMouseLeave={() => setIsGridCursorActive(false)}
-                    className="break-inside-avoid overflow-hidden flex flex-col shadow-lg border border-transparent hover:border-primary-text hover:-translate-y-1 transition-all duration-300 cursor-none bg-white/5"
+                    className="break-inside-avoid inline-block w-full"
                   >
-                    <Image
-                      src={item.src}
-                      alt={item.title}
-                      width={CAROUSEL_CARD_WIDTH}
-                      height={CAROUSEL_CARD_HEIGHT}
-                      sizes="(max-width: 768px) 50vw, 33vw"
-                      className="w-full h-auto object-cover"
-                    />
-                  </div>
+                    <div
+                      onMouseEnter={() => setIsGridCursorActive(true)}
+                      onMouseLeave={() => setIsGridCursorActive(false)}
+                      className="break-inside-avoid overflow-hidden flex flex-col shadow-lg border border-transparent hover:border-primary-text hover:-translate-y-1 transition-all duration-300 cursor-none bg-white/5"
+                    >
+                      {/* Grid view images can stay standard responsive */}
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        width={724}
+                        height={533}
+                        sizes="(max-width: 768px) 50vw, 33vw"
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  </ScrollReveal>
                 ))}
               </div>
             </>
           )}
+
           {limit > 0 && (
             <div className="flex justify-center mt-8">
               <Button
@@ -185,6 +197,7 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
                 textColor="text-dark"
                 borderColor="border-[#E5E7E3]"
                 onClick={() => { router.push("/playground") }}
+                className="mx-auto"
               >
                 See All
               </Button>

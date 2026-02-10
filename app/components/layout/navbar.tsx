@@ -13,7 +13,6 @@ const themes = [
   { value: "green", label: "Green", color: "bg-[#165850]" },
   { value: "blue", label: "Blue", color: "bg-[#162358]" },
   { value: "purple", label: "Purple", color: "bg-[#5856D6]" },
-  { value: "orange", label: "Orange", color: "bg-[#FFAA33]" },
   { value: "red", label: "Red", color: "bg-[#E6294D]" },
   { value: "night", label: "Night", color: "bg-[#070707]" },
 ];

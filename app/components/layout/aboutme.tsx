@@ -1,12 +1,13 @@
 "use client";
 
-import { DocumentDownload } from "iconsax-react";
-
+import { DocumentDownload, Scroll } from "iconsax-react";
 import React, { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { me } from "@/app/libs/me";
 import Button from "../ui/button";
 import { useRouter } from "next/navigation";
+import ScrollReveal from "../ui/ScrollReveal";
+
 
 const experiences = [
     {
@@ -50,22 +51,22 @@ const ExperienceRow = ({
 }) => {
     return (
         <div className="flex justify-between items-start">
-            <span className="text-sm font-semibold text-[#929292]">
-                {duration}
-            </span>
-            <div className="flex items-end gap-4">
-                <h4 className="text-sm font-semibold text-[#000000]">{role}</h4>
+            <div className="flex items-start">
                 <div className="flex items-center gap-1">
                     <img
                         src={companyLogo}
                         alt={companyName}
                         className="object-cover w-full h-full"
                     />
-                    <span className="text-sm font-semibold text-[#8D8D8D]">
+                    <span className="text-sm font-normal text-[#8D8D8D]">
                         {companyName}
                     </span>
                 </div>
+                <h4 className="text-sm font-normal text-[#8D8D8D]">{" "}/ {role}</h4>
             </div>
+            <span className="text-sm items-end uppercase font-normal text-[#929292]">
+                {duration}
+            </span>
         </div>
     );
 };
@@ -96,74 +97,101 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
     const infiniteMe = [...me, ...me];
 
     const defaultBio = (
-        <span>
-            I'm Newman Ogbo, a Product & Visual Designer with a
-            strong interest in how ideas evolve into usable,
-            meaningful digital products. My journey into design
-            began not with aesthetics, but with curiosity about
-            how people interact with systems, how technology
-            shapes behavior, and how thoughtful structure can
-            simplify complex problems. Early on, I became drawn
-            to observing everyday challenges around access,
-            connection, and usability. This curiosity gradually
-            led me to design, where I found a discipline that
-            allowed me to combine problem-solving, visual
-            communication, and systems thinking into practical
-            outcomes. Over time, my work expanded across web and
-            mobile products, often within early-stage or
-            founder-led environments where design decisions
-            directly shaped the product's direction.
-        </span>
+        <ScrollReveal>
+            <span>
+                I'm Newman Ogbo, a Product & Visual Designer with a
+                strong interest in how ideas evolve into usable,
+                meaningful products. My journey into design
+                began not with aesthetics, but with curiosity about
+                how people interact with systems, how technology
+                shapes behavior, and how thoughtful structure can
+                simplify complex problems. Early on, I became drawn
+                to observing everyday challenges around access,
+                connection, and usability. This curiosity gradually
+                led me to design, where I found a discipline that
+                allowed me to combine problem-solving, visual
+                communication, and systems thinking into practical
+                outcomes. Over time, my work expanded across web and
+                mobile products, often within early-stage or
+                founder-led environments where design decisions
+                directly shaped the product's direction.
+            </span>
+        </ScrollReveal>
     );
 
     return (
         <div className="py-20 grid gap-12">
             <div className="grid gap-3 max-w-[1040px] mx-auto">
-                <h1 className="font-extrabold text-2xl">About me</h1>
-                <div className="flex gap-8 items-start">
-                    {/* Left Column: Text */}
+
+                {/* 1. Heading */}
+                <ScrollReveal>
+                    <h1 className="font-semibold text-sm uppercase text-tertiary-text">Professional background</h1>
+                </ScrollReveal>
+
+                <div className="flex gap-8 items-start relative">
+
+                    {/* 2. Left Column: Text */}
                     <div className="w-[50%]">
                         <div className="Rinter text-base font-normal text-secondary-text">
                             {description || defaultBio}
                         </div>
                     </div>
 
-                    {/* Right Column: Work Experience Card */}
-                    <div className="w-[50%] bg-white rounded-3xl p-8 flex flex-col justify-between h-[300px]">
-                        <div className="flex-1 overflow-y-auto">
-                            <div className="mb-6">
-                                <h1 className="font-extrabold text-xl text-[#000000]">
-                                    Work Experience
-                                </h1>
-                            </div>
+                    {/* 3. Right Column: Work Experience Card */}
+                    {/* NOTICE: I moved the sticky/layout classes to ScrollReveal props so they apply to the wrapper */}
+                    <div className="w-[50%] sticky top-30">
+                        <ScrollReveal>
+                            <div
+                                className="bg-white rounded-3xl p-8 flex flex-col justify-between self-start"
+                            >
+                                <div className="flex-1">
+                                    <div className="mb-6">
+                                        <h1 className="font-semibold text-sm uppercase text-[#000000]">
+                                            Work Experience
+                                        </h1>
+                                    </div>
 
-                            <div className="flex flex-col gap-4">
-                                {experiences.map((exp, index) => (
-                                    <ExperienceRow
-                                        key={index}
-                                        duration={exp.duration}
-                                        role={exp.role}
-                                        companyName={exp.company}
-                                        companyLogo={exp.logo}
-                                        hasBorder={index !== experiences.length - 1}
+                                    <div className="flex flex-col gap-4">
+                                        {experiences.map((exp, index) => (
+                                            <ExperienceRow
+                                                key={index}
+                                                duration={exp.duration}
+                                                role={exp.role}
+                                                companyName={exp.company}
+                                                companyLogo={exp.logo}
+                                                hasBorder={index !== experiences.length - 1}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <button className="uppercase mt-6 flex gap-2 place-items-center w-fit text-sm font-bold tracking-wide text-[#3454D1] hover:opacity-80 transition-opacity flex-shrink-0">
+                                    <DocumentDownload
+                                        variant="Bold"
+                                        size={20}
+                                        color="currentColor"
                                     />
-                                ))}
+                                    Download Full CV
+                                </button>
                             </div>
-                        </div>
-
-                        <button className="uppercase mt-6 flex gap-2 place-items-center w-fit text-sm font-bold tracking-wide text-[#3454D1] hover:opacity-80 transition-opacity flex-shrink-0">
-                            <DocumentDownload
-                                variant="Bold"
-                                size={20}
-                                color="currentColor"
-                            />
-                            Download Full CV
-                        </button>
+                        </ScrollReveal>
+                        {!showFindMore && (
+                            <ScrollReveal>
+                                <div className="grid gap-3 mt-6">
+                                    <h1 className="font-semibold text-sm uppercase text-tertiary-text">outside design</h1>
+                                    <p>
+                                        When I’m not designing, you’ll often find me enjoying quality time with friends, either at the basketball court, hitting the gym or in a gaming session. Building meaningful relationships with people is something I value. It not only enriches my life but informs my design decisions
+                                    </p>
+                                </div>
+                            </ScrollReveal>
+                        )}
                     </div>
+
                 </div>
 
+                {/* 4. Find Out More Button */}
                 {showFindMore && (
-                    <div className="flex justify-center mt-8">
+                    <ScrollReveal className="flex justify-center mt-8">
                         <Button
                             bgColor="bg-white"
                             textColor="text-dark"
@@ -172,11 +200,13 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                         >
                             Find Out More
                         </Button>
-                    </div>
+                    </ScrollReveal>
                 )}
             </div>
 
-            <div className="relative h-120">
+            {/* 5. Infinite Slider Container */}
+            {/* Animating the container opacity/blur, while inner logic handles the scroll */}
+            <ScrollReveal className="relative h-120 overflow-hidden" >
                 <div className="w-full mt-6 absolute">
                     <div ref={sliderRef} className="flex gap-4 w-max">
                         {infiniteMe.map((image, index) => (
@@ -185,41 +215,46 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                                 alt={image.alt}
                                 key={index}
                                 className={`
-                                           relative 
-                                           overflow-hidden 
-                                           border-2 border-transparent 
-                                           group cursor-pointer object-cover 
-                                           ${image.size}
-                                           
-                                           /* --- ANIMATION & HOVER STYLES --- */
-                                           transition-all duration-300 ease-out
-                                           hover:rotate-[-1.5deg] 
-                                           hover:border-primary 
-                                           hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]
-                                          `}
+                   relative 
+                   overflow-hidden 
+                   border-2 border-transparent 
+                   group cursor-pointer object-cover 
+                   ${image.size}
+                   transition-all duration-300 ease-out
+                   hover:rotate-[-1.5deg] 
+                   hover:border-primary 
+                   hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)]
+                 `}
                             />
                         ))}
                     </div>
                 </div>
-            </div>
+            </ScrollReveal>
+
+            {/* 6. Bottom Buttons */}
             <div className="flex gap-6 justify-center mt-6 px-50">
-                <Button
-                    bgColor="bg-white"
-                    textColor="text-dark"
-                    borderColor="border-[#E5E7E3]"
-                    icon={<img src="/gmail.svg" alt="" className="size-4" />}
-                >
-                    Get in Touch
-                </Button>
-                <Button
-                    bgColor="bg-dark"
-                    textColor="text-white"
-                    borderColor="border-transparent"
-                    icon={<img src="/meet.svg" alt="" className="size-4" />}
-                >
-                    Book a Call
-                </Button>
+                <ScrollReveal>
+                    <Button
+                        bgColor="bg-white"
+                        textColor="text-dark"
+                        borderColor="border-[#E5E7E3]"
+                        icon={<img src="/gmail.svg" alt="" className="size-4" />}
+                    >
+                        Get in Touch
+                    </Button>
+                </ScrollReveal>
+
+                <ScrollReveal>
+                    <Button
+                        bgColor="bg-dark"
+                        textColor="text-white"
+                        borderColor="border-transparent"
+                        icon={<img src="/meet.svg" alt="" className="size-4" />}
+                    >
+                        Book a Call
+                    </Button>
+                </ScrollReveal>
             </div>
-        </div>
+        </div >
     );
 }

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { CSSProperties } from "react";
+import ScrollReveal from "./ScrollReveal";
 
 interface HeroCardProps {
   src: string;
   alt?: string;
   className?: string;
-  style?: CSSProperties; 
+  style?: CSSProperties;
 }
 
 export default function HeroCard({
