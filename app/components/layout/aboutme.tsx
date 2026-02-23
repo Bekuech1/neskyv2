@@ -1,12 +1,11 @@
 "use client";
 
-import { DocumentDownload, Scroll } from "iconsax-react";
+import { DocumentDownload} from "iconsax-react";
 import React, { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { me } from "@/app/libs/me";
 import Button from "../ui/button";
 import { useRouter } from "next/navigation";
-import ScrollReveal from "../ui/ScrollReveal";
 
 
 const experiences = [
@@ -97,9 +96,9 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
     const infiniteMe = [...me, ...me];
 
     const defaultBio = (
-        <ScrollReveal>
+        <div>
             <span>
-                I'm Newman Ogbo, a Product & Visual Designer with a
+                I&apos;m Newman Ogbo, a Product & Visual Designer with a
                 strong interest in how ideas evolve into usable,
                 meaningful products. My journey into design
                 began not with aesthetics, but with curiosity about
@@ -114,9 +113,9 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                 outcomes. Over time, my work expanded across web and
                 mobile products, often within early-stage or
                 founder-led environments where design decisions
-                directly shaped the product's direction.
+                directly shaped the product&apos;s direction.
             </span>
-        </ScrollReveal>
+        </div>
     );
 
     return (
@@ -124,9 +123,9 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
             <div className="grid gap-3 max-w-[1040px] mx-auto">
 
                 {/* 1. Heading */}
-                <ScrollReveal>
+                <div>
                     <h1 className="font-semibold text-sm uppercase text-tertiary-text">Professional background</h1>
-                </ScrollReveal>
+                </div>
 
                 <div className="flex gap-8 items-start relative">
 
@@ -140,7 +139,7 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                     {/* 3. Right Column: Work Experience Card */}
                     {/* NOTICE: I moved the sticky/layout classes to ScrollReveal props so they apply to the wrapper */}
                     <div className="w-[50%] sticky top-30">
-                        <ScrollReveal>
+                        <div>
                             <div
                                 className="bg-white rounded-3xl p-8 flex flex-col justify-between self-start"
                             >
@@ -174,16 +173,16 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                                     Download Full CV
                                 </button>
                             </div>
-                        </ScrollReveal>
+                        </div>
                         {!showFindMore && (
-                            <ScrollReveal>
+                            <div>
                                 <div className="grid gap-3 mt-6">
                                     <h1 className="font-semibold text-sm uppercase text-tertiary-text">outside design</h1>
                                     <p>
                                         When I’m not designing, you’ll often find me enjoying quality time with friends, either at the basketball court, hitting the gym or in a gaming session. Building meaningful relationships with people is something I value. It not only enriches my life but informs my design decisions
                                     </p>
                                 </div>
-                            </ScrollReveal>
+                            </div>
                         )}
                     </div>
 
@@ -191,7 +190,7 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
 
                 {/* 4. Find Out More Button */}
                 {showFindMore && (
-                    <ScrollReveal className="flex justify-center mt-8">
+                    <div className="flex justify-center mt-8">
                         <Button
                             bgColor="bg-white"
                             textColor="text-dark"
@@ -200,13 +199,13 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                         >
                             Find Out More
                         </Button>
-                    </ScrollReveal>
+                    </div>
                 )}
             </div>
 
             {/* 5. Infinite Slider Container */}
             {/* Animating the container opacity/blur, while inner logic handles the scroll */}
-            <ScrollReveal className="relative h-120 overflow-hidden" >
+            <div className="relative h-130 overflow-hidden" >
                 <div className="w-full mt-6 absolute">
                     <div ref={sliderRef} className="flex gap-4 w-max">
                         {infiniteMe.map((image, index) => (
@@ -229,31 +228,26 @@ export default function Aboutme({ showFindMore = true, description }: AboutmePro
                         ))}
                     </div>
                 </div>
-            </ScrollReveal>
+            </div>
 
             {/* 6. Bottom Buttons */}
             <div className="flex gap-6 justify-center mt-6 px-50">
-                <ScrollReveal>
-                    <Button
-                        bgColor="bg-white"
-                        textColor="text-dark"
-                        borderColor="border-[#E5E7E3]"
-                        icon={<img src="/gmail.svg" alt="" className="size-4" />}
-                    >
-                        Get in Touch
-                    </Button>
-                </ScrollReveal>
-
-                <ScrollReveal>
-                    <Button
-                        bgColor="bg-dark"
-                        textColor="text-white"
-                        borderColor="border-transparent"
-                        icon={<img src="/meet.svg" alt="" className="size-4" />}
-                    >
-                        Book a Call
-                    </Button>
-                </ScrollReveal>
+                <Button
+                    bgColor="bg-white"
+                    textColor="text-dark"
+                    borderColor="border-[#E5E7E3]"
+                    icon={<img src="/gmail.svg" alt="" className="size-4" />}
+                >
+                    Get in Touch
+                </Button>
+                <Button
+                    bgColor="bg-dark"
+                    textColor="text-white"
+                    borderColor="border-transparent"
+                    icon={<img src="/meet.svg" alt="" className="size-4" />}
+                >
+                    Book a Call
+                </Button>
             </div>
         </div >
     );

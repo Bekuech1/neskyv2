@@ -1,4 +1,10 @@
-export const navLinks = [
+export interface NavLink {
+  name: string;
+  href: string;
+  isDownload?: boolean; // The '?' makes this property optional
+}
+
+export const navLinks: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "Design Playground", href: "/playground" },
   { name: "My Projects", href: "/projects" },

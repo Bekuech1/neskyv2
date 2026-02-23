@@ -10,75 +10,68 @@ interface ScrollRevealProps {
   children: ReactNode;
   className?: string;
   enableBlur?: boolean;
-  baseOpacity?: number; // New: How visible should it be when "faded out"? (0 = invisible, 0.2 = faint)
+  baseOpacity?: number;
+  startPos?: string;
+  fadeOut?: boolean; // New: control whether to fade out
 }
 
-export default function ScrollReveal({ 
-  children, 
-  className = "", 
+export default function ScrollReveal({
+  children,
+  className = "",
   enableBlur = true,
-  baseOpacity = 0 // Default to completely invisible at edges
+  baseOpacity = 0,
+  startPos = "85%",
+  fadeOut = true // Default: keep content visible after reveal
 }: ScrollRevealProps) {
-  const el = useRef<HTMLDivElement>(null);
+  const el = useRef(null);
 
   useLayoutEffect(() => {
     if (!el.current) return;
 
     const ctx = gsap.context(() => {
-      // We create a Timeline that is linked to the scroll position (scrub: true)
-      // The timeline has 3 steps: 
-      // 1. Fade In (Enter from bottom)
-      // 2. Stay Visible (Center of screen)
-      // 3. Fade Out (Leave to top)
+      // Explicitly set initial state
+      gsap.set(el.current, {
+        opacity: baseOpacity,
+        y: 50,
+        filter: enableBlur ? "blur(10px)" : "blur(0px)",
+        willChange: "transform, opacity, filter"
+      });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: el.current,
-          start: "top bottom", // Start when Top of element hits Bottom of viewport
-          end: "bottom top",   // End when Bottom of element hits Top of viewport
-          scrub: true,         // <--- This is the magic. It ties animation to scroll bar.
+          start: `top ${startPos}`,
+          end: "bottom 15%",
+          scrub: true,
         }
       });
 
-      tl.fromTo(el.current, 
-        { 
-          opacity: baseOpacity, 
-          y: 50, 
-          filter: enableBlur ? "blur(10px)" : "blur(0px)" 
-        },
-        { 
-          opacity: 1, 
-          y: 0, 
-          filter: "blur(0px)", 
-          ease: "none", 
-          duration: 1 // Takes up the first part of the scroll
-        }
-      )
-      .to(el.current, 
-        { 
-          opacity: baseOpacity, 
-          y: -50, // Move UP slightly as it fades out (Parallax feel)
-          filter: enableBlur ? "blur(10px)" : "blur(0px)", 
-          ease: "none",
-          duration: 1 // Takes up the last part of the scroll
-        }, 
-        // This ">-0.5" creates a "Hold" in the middle where it stays visible
-        // Adjust this value to make the "visible zone" larger or smaller
-        ">+=2" 
-      );
+      // Fade in animation
+      tl.to(el.current, {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        ease: "none",
+        duration: 1
+      });
 
+      // Only fade out if enabled
+      if (fadeOut) {
+        tl.to(el.current, {
+          opacity: baseOpacity,
+          y: -50,
+          filter: enableBlur ? "blur(10px)" : "blur(0px)",
+          ease: "none",
+          duration: 1
+        }, ">+=2");
+      }
     }, el);
 
     return () => ctx.revert();
-  }, [enableBlur, baseOpacity]);
+  }, [enableBlur, baseOpacity, startPos, fadeOut]);
 
   return (
-    <div 
-      ref={el} 
-      className={className}
-      // Set initial opacity to baseOpacity (or 0) to prevent FOUC
-      style={{ opacity: baseOpacity, willChange: "opacity, transform, filter" }}
-    >
+    <div ref={el} className={className}>
       {children}
     </div>
   );

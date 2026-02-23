@@ -8,9 +8,14 @@ import Button from "../ui/button";
 import { navLinks } from "@/app/libs/data";
 import ScrollReveal from "../ui/ScrollReveal";
 
-interface FooterProps { }
+interface NavLink {
+  name: string;
+  href: string;
+  isDownload?: boolean; 
+}
 
-export default function Footer({ }: FooterProps) {
+
+export default function Footer() {
   const pathname = usePathname();
 
   // State to track if text is copied
@@ -40,7 +45,6 @@ export default function Footer({ }: FooterProps) {
       <div className="grid gap-16 w-full max-w-[1040px] mx-auto">
         
         {/* ROW 1: Socials & Nav Links */}
-        <ScrollReveal>
           <div className="flex justify-between items-center z-10 relative">
             <div className="h-12 flex items-center gap-4">
               <span className="text-base font-medium text-[#FDFDFD]">
@@ -53,7 +57,7 @@ export default function Footer({ }: FooterProps) {
               </div>
             </div>
             <div>
-              {navLinks.map((link: any) => {
+              {navLinks.map((link: NavLink) => {
                 const isActive = pathname === link.href;
 
                 return (
@@ -71,10 +75,8 @@ export default function Footer({ }: FooterProps) {
               })}
             </div>
           </div>
-        </ScrollReveal>
 
         {/* ROW 2: Big Email & Copy Button */}
-        <ScrollReveal>
           <div className="flex justify-between items-center z-10 relative">
             <h3
               onClick={handleCopy}
@@ -102,7 +104,6 @@ export default function Footer({ }: FooterProps) {
               </Button>
             </div>
           </div>
-        </ScrollReveal>
 
         {/* ROW 3: Credits */}
           <div className="uppercase flex justify-between z-10 relative">

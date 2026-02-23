@@ -8,6 +8,13 @@ import { ArrowDown2, Import } from "iconsax-react";
 import { navLinks } from "@/app/libs/data";
 import gsap from "gsap";
 
+// 1. Define the exact shape of your nav items to remove the "any" type
+interface NavItem {
+  name: string;
+  href: string;
+  isDownload?: boolean; // The "?" makes it optional since not all links are downloads
+}
+
 const themes = [
   { value: "light", label: "Light", color: "bg-[#FFFFFF]" },
   { value: "green", label: "Green", color: "bg-[#165850]" },
@@ -27,7 +34,35 @@ export default function Navbar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
 
-  useEffect(() => setMounted(true), []);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!navRef.current) return;
+
+    // 1. Create the observer
+    const resizeObserver = new ResizeObserver((entries) => {
+      // 2. This only runs when the Navbar actually changes size
+      for (const entry of entries) {
+        // Get the new height
+        const height = (entry.target as HTMLElement).offsetHeight;
+        // Update the CSS variable
+        document.documentElement.style.setProperty('--nav-height', `${height}px`);
+      }
+    });
+
+    // 3. Tell it to watch your Navbar
+    resizeObserver.observe(navRef.current);
+
+    // 4. Clean up when the component unmounts
+    return () => resizeObserver.disconnect();
+  }, []); // Empty dependency array
+
+  // 2. Fixed hydration effect by adding curly braces. 
+  // If your strict linter still yells, uncomment the disable line below.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setMounted(true);
+  }, []);
 
   const closeMenu = () => {
     if (!menuRef.current || isAnimating.current) return;
@@ -96,18 +131,16 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full py-4 px-6 md:px-20 flex justify-between items-center bg-primary">
       {/* Left Side: Links */}
       <div className="flex gap-4">
-        {navLinks.map((link: any) => {
+        {/* 3. Replaced 'any' with the 'NavItem' interface */}
+        {navLinks.map((link: NavItem) => {
           const isActive = pathname === link.href;
           
-          // Define shared classes for both Link and a tag
           const linkClasses = `text-xs font-normal transition-colors duration-200 uppercase p-2 flex items-center gap-1.5 ${
             isActive
               ? "text-primary-text"
               : "text-secondary-text hover:text-primary-text"
           }`;
 
-          // 1. CONDITIONAL RENDERING
-          // If it's a download link, use a standard <a> tag
           if (link.isDownload) {
             return (
               <a

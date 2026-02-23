@@ -7,7 +7,7 @@ import Badge from "../ui/badge";
 import Button from "../ui/button";
 import ScrollReveal from "../ui/ScrollReveal"; // 1. Import the wrapper
 
-export default function Hero() {
+export default function Hero({ splashFinished }: { splashFinished: boolean }) {
   // 1. Create refs for all major sections
   const cardsRef = useRef<HTMLDivElement>(null);
   const badgesRef = useRef<HTMLDivElement>(null);
@@ -37,6 +37,8 @@ export default function Hero() {
   ];
 
   useLayoutEffect(() => {
+
+    if (!splashFinished) return;
     // 2. Create a GSAP Context for easy cleanup
     const ctx = gsap.context(() => {
       // --- SETUP: Card Positioning (Your existing logic) ---
@@ -132,7 +134,7 @@ export default function Hero() {
     });
 
     return () => ctx.revert(); // Cleanup GSAP on unmount
-  }, []);
+  }, [splashFinished]);
 
   return (
     // 2. Wrap the whole container in ScrollReveal

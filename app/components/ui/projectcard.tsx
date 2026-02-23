@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { DocumentText1, Link1, Lock1 } from "iconsax-react";
+import ActionLink from "./actionlink";
 
 interface ProjectCardProps {
   title: string;
@@ -75,30 +76,3 @@ export default function ProjectCard({
     </div>
   );
 }
-
-// ... (ActionLink component remains the same) ...
-const ActionLink = ({ label, href, type, locked }: any) => {
-    // ... Copy your existing ActionLink code here ...
-    // Just ensure the Link also has cursor-none if you want the custom cursor to persist over buttons
-    if (locked) {
-        return (
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-secondary-text select-none uppercase">
-                <Lock1 size={16} color="currentColor" variant="Bold" />
-                <span>{label}</span>
-            </div>
-        );
-    }
-    return (
-        <Link
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1.5 text-xs font-semibold text-primary-text transition-opacity cursor-none relative z-20 uppercase"
-        >
-            <div className="text-primary-text">
-                {type === "live" ? <Link1 size={16} color="currentColor" /> : <DocumentText1 size={16} color="currentColor" variant="Bold" />}
-            </div>
-            <span>{label}</span>
-        </Link>
-    );
-};
