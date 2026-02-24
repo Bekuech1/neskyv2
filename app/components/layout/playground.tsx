@@ -29,23 +29,17 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
     hsrc: item.hsrc,
   }));
 
-  // Add this near your other state variables
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Add this useEffect to instantly center the image on mount
   useEffect(() => {
     if (isCarouselView && carouselRef.current) {
-      // Finds the very first image (skipping the empty spacer)
       const firstImage = carouselRef.current.querySelector("img");
 
       if (firstImage) {
-        // Instantly jumps the scroll position to center the image
         firstImage.scrollIntoView({ inline: "center", behavior: "auto" });
       }
     }
-  }, [isCarouselView]); // Runs every time you toggle into the carousel view
-
-  // --- UPDATED GSAP LOGIC FOR VARIABLE WIDTHS ---
+  }, [isCarouselView]);
 
   const handleNext = () => {
     if (activeIndex < items.length - 1) setActiveIndex((p) => p + 1);
@@ -56,12 +50,18 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
   };
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,var(--color-tertiary-text)_1.5px,transparent_1.5px)] bg-[length:26px_26px] pointer-events-none opacity-50" />
+    <section className="relative w-full min-h-screen">
+      {/* FIXED/STICKY BACKGROUND WRAPPER */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="sticky top-[62px] w-full h-screen bg-[radial-gradient(circle_at_center,var(--color-tertiary-text)_1.5px,transparent_1.5px)] bg-[length:26px_26px] opacity-50" />
+      </div>
+
+      {/* SCROLLING CONTENT AREA */}
       <div className="relative z-10 w-full py-6 grid gap-12">
 
-        {/* HEADER */}
-        <div className="w-full flex justify-between items-center max-w-[1040px] mx-auto px-4">
+        {/* HEADER - NOW STICKY */}
+        {/* If your navbar is fixed, change top-0 to top-[var(--nav-height)] so it doesn't hide behind it */}
+        <div className="sticky top-[78px] z-50 w-full flex justify-between items-center max-w-[1040px] mx-auto px-4 py-4 rounded-b-xl">
           <h1 className="font-extrabold text-2xl text-primary-text">Playground</h1>
           <IconToggle
             toggled={isCarouselView}
@@ -77,10 +77,10 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
             ref={carouselRef}
             className="flex overflow-x-auto items-center snap-x snap-mandatory scrollbar-hide"
           >
-            {/* 1. START SPACER: Gives the first item room to be centered */}
+            {/* 1. START SPACER */}
             <div className="shrink-0 w-[50vw] pointer-events-none" />
 
-            {items.map((item, index) => (
+            {items.map((item) => (
               <img
                 src={item.hsrc}
                 alt={item.title}
@@ -89,7 +89,7 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
               />
             ))}
 
-            {/* 3. END SPACER: Gives the last item room to be centered */}
+            {/* 3. END SPACER */}
             <div className="shrink-0 w-[50vw] pointer-events-none" />
           </div>
         ) : (
@@ -103,7 +103,6 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
                   onMouseLeave={() => setIsGridCursorActive(false)}
                   className="break-inside-avoid overflow-hidden flex flex-col shadow-lg border border-transparent hover:border-primary-text hover:-translate-y-1 transition-all duration-300 cursor-none bg-white/5"
                 >
-                  {/* Grid view images can stay standard responsive */}
                   <Image
                     src={item.src}
                     alt={item.title}
@@ -117,8 +116,9 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
             </div>
           </div>
         )}
+        
         {limit > 0 && (
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-8 pb-8">
             <Button
               bgColor="bg-white"
               textColor="text-dark"
@@ -131,6 +131,6 @@ export default function Playground({ limit = 9 }: PlaygroundProps) {
           </div>
         )}
       </div>
-    </section >
+    </section>
   );
 }
